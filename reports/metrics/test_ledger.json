@@ -14,5 +14,37 @@
  "fix_size224_pairw2": {
   "test_acc": 0.9893827160493828,
   "test_macro_f1": 0.989139330346448
+ },
+ "bands_rgb_tif_s42": {
+  "test_acc": 0.9879012345679012,
+  "test_macro_f1": 0.9873900162763558
+ },
+ "bands_rgb_tif_s43": {
+  "test_acc": 0.9903703703703703,
+  "test_macro_f1": 0.9899490654739523
+ },
+ "bands_rgb_ndvi_s42": {
+  "test_acc": 0.9896296296296296,
+  "test_macro_f1": 0.9892073433575401
+ },
+ "bands_rgb_ndvi_s43": {
+  "test_acc": 0.9923456790123457,
+  "test_macro_f1": 0.9920275341862869
+ },
+ "bands_all13_s42": {
+  "test_acc": 0.9925925925925926,
+  "test_macro_f1": 0.9922702658254184
+ },
+ "bands_all13_s43": {
+  "test_acc": 0.9925925925925926,
+  "test_macro_f1": 0.9922485219373381
+ },
+ "bands_all13_ndvi_s42": {
+  "test_acc": 0.9918518518518519,
+  "test_macro_f1": 0.991483045227727
+ },
+ "bands_all13_ndvi_s43": {
+  "test_acc": 0.9923456790123457,
+  "test_macro_f1": 0.9921443543951625
  }
 }

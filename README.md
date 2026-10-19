@@ -21,8 +21,20 @@ Figures (`reports/figures/`): `confusion_matrix_before.png`, `confusion_matrix_a
 * Split: stratified 70/15/15 by class, seed 42 → 18,900 / 4,050 / 4,050 (`data/splits.csv`; own split, not the dataset's csvs).
 * All choices (best epoch, fix) use validation only. `src/evaluate.py` scores test once per model and refuses repeats (`reports/metrics/test_ledger.json`).
 * Hardware: RTX 5070 Laptop GPU (8 GB), Intel Core Ultra 9 275HX (24 threads), 31.4 GB RAM, Windows 11, torch 2.11.0+cu128, bf16 autocast.
-* Not done: the optional 13-band/NDVI stretch was **skipped**. Only the RGB images were used.
+* The main table uses RGB jpgs only; the 13-band/NDVI stretch is reported separately below.
 * Models were trained once each (seed 42); no confidence intervals.
+
+## Stretch: NDVI and multispectral input (13-band GeoTIFFs)
+Same ResNet-18 fine-tuning recipe (128 px, 15 epochs), inputs built from the 13-band tifs (`src/bands.py`, `src/train_bands.py`). NDVI = (B08 − B04)/(B08 + B04). Two seeds (42, 43) per variant; every run scored on test once (`src/evaluate_bands.py`); "rgb_tif" is the control (RGB taken from the tifs, since tif and jpg radiometry differ).
+
+| Input channels | Val acc (mean of 2 seeds) | Test acc (s42 / s43, mean) | Test macro-F1 (mean) | Annual↔Permanent test errors | Train time |
+|---|---|---|---|---|---|
+| RGB from tif (control) | 0.9884 | 0.9879 / 0.9904 (0.9892) | 0.9887 | 11 / 10 | ~82 s |
+| RGB + NDVI | 0.9896 | 0.9896 / 0.9923 (0.9910) | 0.9906 | 9 / 8 | ~87 s |
+| All 13 bands | **0.9903** | 0.9926 / 0.9926 (**0.9926**) | 0.9923 | **4 / 4** | ~97 s |
+| 13 bands + NDVI | 0.9897 | 0.9919 / 0.9923 (0.9921) | 0.9918 | 6 / 8 | ~100 s |
+
+Reading: NDVI alone adds about +0.2 pp over the RGB control; using all 13 bands adds about +0.3 pp and cuts the crop-pair confusion by more than half. Adding NDVI on top of 13 bands gives nothing (a ratio of two bands the network already sees). Seed-to-seed spread (~0.2 pp) is comparable to the NDVI-only gain, so that gain is suggestive; the 13-band gain and the crop-pair reduction are more consistent but still come from 2 seeds. Note these tif-based models are not the same data as the RGB jpg models above (the best jpg model, 0.9894, is not a like-for-like comparison). The deployed API still serves the RGB model.
 
 ## Reproduce
 ```bash
