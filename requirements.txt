@@ -1,0 +1,7 @@
+# Runtime / API (what the Docker image installs)
+fastapi==0.146.0
+uvicorn==0.54.0
+python-multipart==0.0.32
+onnxruntime==1.31.0
+numpy==2.5.2
+pillow==12.3.0
